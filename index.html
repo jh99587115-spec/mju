@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f2f4f6" />
+    <meta name="description" content="모임 지출을 입력하면 누가 누구에게 얼마를 보낼지 바로 정리해요." />
+    <title>정산끝 — 모임 정산을 한 번에</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="정산끝 홈">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5 9.2 17 19 7" /></svg></span>
+          <span>정산끝</span>
+        </a>
+        <span class="privacy-note"><span class="lock-icon" aria-hidden="true">▣</span> 이 기기에만 저장돼요</span>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow"><span class="eyebrow-dot"></span> 모임 정산, 이제 간단하게</span>
+            <h1>누가 누구에게 얼마?<br /><span>정산끝!</span></h1>
+            <p>함께한 사람과 지출을 적으면<br class="mobile-break" /> 보내고 받을 금액을 바로 계산해요.</p>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+            <div class="visual-card"><span class="visual-check">✓</span><div><small>정산 완료</small><strong>깔끔하게 끝!</strong></div><span class="visual-spark">✦</span></div>
+            <span class="visual-pill pill-blue">빠르게</span><span class="visual-pill pill-green">정확하게</span>
+          </div>
+        </section>
+
+        <nav class="step-nav" aria-label="정산 진행 단계">
+          <a href="#people" class="step-link active"><span>1</span> 함께한 사람</a><i></i>
+          <a href="#expenses" class="step-link"><span>2</span> 지출 내역</a><i></i>
+          <a href="#settlement" class="step-link"><span>3</span> 최종 정산</a>
+        </nav>
+
+        <div class="workspace">
+          <div class="main-column">
+            <section class="panel people-panel" id="people">
+              <div class="section-heading">
+                <div class="section-title"><span class="section-number">01</span><div><h2>함께한 사람</h2><p>누구와 정산할까요?</p></div></div>
+                <span class="count-badge" id="people-count">0명</span>
+              </div>
+              <form id="person-form" class="add-person-form" autocomplete="off">
+                <label class="sr-only" for="person-name">이름</label>
+                <input id="person-name" maxlength="10" placeholder="이름을 입력해 주세요" />
+                <button class="button button-primary add-person-button" type="submit"><span aria-hidden="true">＋</span> 추가</button>
+              </form>
+              <p id="person-error" class="form-message" aria-live="polite"></p>
+              <div id="people-list" class="people-list"><div class="empty-people"><span class="empty-icon">👋</span><span>함께한 사람을 추가해 주세요</span></div></div>
+              <div id="people-hint" class="hint-box"><span class="hint-icon">i</span><span>참여자를 2명 이상 추가하면 지출을 입력할 수 있어요.</span></div>
+            </section>
+
+            <section class="panel expense-panel" id="expenses">
+              <div class="section-heading">
+                <div class="section-title"><span class="section-number">02</span><div><h2>지출 내역</h2><p>함께 쓴 돈을 하나씩 적어 주세요.</p></div></div>
+                <span class="expense-total-label">총 지출 <strong id="total-spend">0원</strong></span>
+              </div>
+              <form id="expense-form" class="expense-form">
+                <fieldset id="expense-fields" disabled>
+                  <div class="field-row">
+                    <div class="field field-wide"><label for="expense-title">어디에 썼나요? <span class="optional">선택</span></label><input id="expense-title" maxlength="20" placeholder="예: 숙소, 저녁 식사" /></div>
+                    <div class="field amount-field"><label for="expense-amount">얼마를 썼나요?</label><div class="amount-input-wrap"><input id="expense-amount" inputmode="numeric" autocomplete="off" placeholder="0" /><span>원</span></div></div>
+                  </div>
+                  <div class="field"><label for="expense-payer">누가 결제했나요?</label><select id="expense-payer"><option value="">참여자를 먼저 추가해 주세요</option></select></div>
+                  <div class="field split-field"><div class="split-label"><label>누가 함께 나눌까요?</label><button type="button" class="text-button" id="select-all">전체 선택</button></div><div class="participant-select" id="split-people"></div></div>
+                  <p id="expense-error" class="form-message" aria-live="polite"></p>
+                  <button class="button button-primary expense-submit" type="submit">＋ 지출 추가하기</button>
+                </fieldset>
+              </form>
+              <div id="expense-list" class="expense-list"><div class="empty-expenses"><span class="receipt-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h12v17l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6" /></svg></span><strong>아직 지출이 없어요</strong><span>지출을 추가하면 여기에 쌓여요.</span></div></div>
+            </section>
+          </div>
+
+          <aside class="panel result-panel" id="settlement">
+            <div class="section-heading result-heading"><div class="section-title"><span class="section-number">03</span><div><h2>최종 정산</h2><p>누가 얼마를 보내면 될까요?</p></div></div><span class="live-tag"><i></i> 실시간 계산</span></div>
+            <div class="result-summary"><span>정산할 금액</span><strong id="result-total">0원</strong></div>
+            <div class="balance-section"><h3>사람별 정산</h3><div id="balance-list" class="balance-list"><div class="result-empty"><span class="result-empty-mark">₩</span><strong>정산 결과가 여기에 보여요</strong><span>지출을 추가하면 자동으로 계산해요.</span></div></div></div>
+            <div class="transfer-section"><div class="transfer-title"><h3>송금 목록</h3><span id="transfer-count" class="transfer-count">0건</span></div><div id="transfer-list" class="transfer-list"><div class="transfer-empty">지출을 입력하면 송금할 금액을 알려드려요.</div></div></div>
+            <div class="result-actions"><button id="copy-result" class="button button-copy" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg> 결과 복사하기</button><button id="reset-all" class="reset-button" type="button">처음부터 다시</button></div>
+            <div class="secure-note"><span aria-hidden="true">✦</span> 내역은 이 브라우저에만 저장돼요</div>
+          </aside>
+        </div>
+      </main>
+      <footer><span>정산끝</span><span>복잡한 정산은 여기서 끝!</span></footer>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
